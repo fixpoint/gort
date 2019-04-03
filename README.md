@@ -22,7 +22,7 @@ func main() {
 		return func(i, j int) bool {
 			a := ifaces[i]
 			b := ifaces[j]
-			return ConcatToLess(
+			return gort.ConcatToLess(
 				compare.String(a.Address, b.Address),
 				compare.String(a.Ifname, b.Ifname),
 				compare.Int(a.Ifindex, b.Ifindex),
