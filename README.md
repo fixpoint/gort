@@ -1,88 +1,109 @@
-<div style="text-align: center; font-size: x-large">
-  🐐
-</div>
+# 🐐 gort
+[![Go Report Card](https://goreportcard.com/badge/github.com/lambdalisue/gort)](https://goreportcard.com/report/github.com/lambdalisue/gort) 
+[![GoDoc](https://godoc.org/github.com/lambdalisue/gort?status.svg)](https://godoc.org/github.com/lambdalisue/gort)
+[![license](https://img.shields.io/badge/license-MIT-4183c4.svg)](https://github.com/lambdalisue/gort/blob/master/LICENSE)
 
-# gort
+**gort** is a collection of utility functions to help writing slice sort.
 
-```golang
+## Installation
+
+```
+$ go get github.com/lambdalisue/gort
+```
+
+## Usage
+
+Use `func ConcatToLess(conditions ...int) bool` to concat multiple conditions (-1 means less, 0 means equal, and 1 means great) to create a function for `sort.Slice()` like
+
+```
 package main
 
 import (
 	"fmt"
 	"sort"
+	"strings"
 
-	"github.com/kamichidu/go-msort/compare"
 	"github.com/lambdalisue/gort"
 )
 
-type Iface struct {
-	Address string
-	Ifname  string
-	Ifindex int
+func main() {
+	ns := []struct{
+		a string
+		b int
+	}{
+		{ a: "world", b: 1 },
+		{ a: "hello", b: 3 },
+		{ a: "hello", b: 2 },
+		{ a: "world", b: 0 },
+	}
+	sort.Slice(ns, func(i, j int) bool {
+		a := ns[i]
+		b := ns[j]
+		return gort.ConcatToLess(
+			compareString(a.a, b.a),    // First condition
+			compareInt(a.b, b.b),       // Second concition
+		)
+	})
+	fmt.Println(ns)
+	// Output:
+	// [{hello 2} {hello 3} {world 0} {world 1}]
 }
 
-func main() {
-	lessIfaceAsc := func(ifaces []Iface) func(int, int) bool {
-		return func(i, j int) bool {
-			a := ifaces[i]
-			b := ifaces[j]
-			return gort.ConcatToLess(
-				compare.String(a.Address, b.Address),
-				compare.String(a.Ifname, b.Ifname),
-				compare.Int(a.Ifindex, b.Ifindex),
-			)
-		}
-	}
+func compareString(a, b string) int {
+	return strings.Compare(a, b)
+}
 
-	ifaces := []Iface {
-		{
-			"192.168.1.1",
-			"eth1",
-			2,
-		},
-		{
-			"192.168.1.1",
-			"eth1",
-			1,
-		},
-		{
-			"192.168.1.1",
-			"eth0",
-			1,
-		},
-		{
-			"192.168.1.0",
-			"eth0",
-			1,
-		},
+func compareInt(a, b int) int {
+	switch {
+	case a < b:
+		return -1
+	case a > b:
+		return 1
+	default:
+		return 0
 	}
-
-	fmt.Println("Before")
-	for _, iface := range ifaces {
-		fmt.Println(iface)
-	}
-
-	sort.Slice(ifaces, lessIfaceAsc(ifaces))
-
-	fmt.Println("After")
-	for _, iface := range ifaces {
-		fmt.Println(iface)
-	}
-	// Output:
-	// Before
-	// {192.168.1.1 eth1 2}
-	// {192.168.1.1 eth1 1}
-	// {192.168.1.1 eth0 1}
-	// {192.168.1.0 eth0 1}
-	// After
-	// {192.168.1.0 eth0 1}
-	// {192.168.1.1 eth0 1}
-	// {192.168.1.1 eth1 1}
-	// {192.168.1.1 eth1 2}
 }
 ```
 
-## Acknowledgements
+Or with [kamichidu/go-msort/compare](kamichidu/go-msort/comapre):
 
-- @kamichidu
-- @c000
+```
+package main
+
+import (
+	"fmt"
+	"sort"
+	"strings"
+
+	"github.com/lambdalisue/gort"
+	"github.com/kamichidu/go-msort/compare"
+)
+
+func main() {
+	ns := []struct{
+		a string
+		b int
+	}{
+		{ a: "world", b: 1 },
+		{ a: "hello", b: 3 },
+		{ a: "hello", b: 2 },
+		{ a: "world", b: 0 },
+	}
+	sort.Slice(ns, func(i, j int) bool {
+		a := ns[i]
+		b := ns[j]
+		return gort.ConcatToLess(
+			compare.String(a.a, b.a),
+			compare.Int(a.b, b.b),
+		)
+	})
+	fmt.Println(ns)
+	// Output:
+	// [{hello 2} {hello 3} {world 0} {world 1}]
+}
+```
+
+## Authors
+
+- lambdalisue
+- c000
