@@ -1,0 +1,8 @@
+linters:
+  enable:
+    - misspell
+    - stylecheck
+  presets:
+    - bugs
+    - format
+    - unused
