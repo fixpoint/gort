@@ -1,12 +1,14 @@
-package gort
+package gort_test
 
 import (
 	"fmt"
 	"sort"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/kamichidu/go-msort/compare"
+
+	"github.com/lambdalisue/gort"
 )
 
 func TestConcat(t *testing.T) {
@@ -14,41 +16,41 @@ func TestConcat(t *testing.T) {
 		E int
 		V []int
 	}{
-		{ 0, []int{ 0,  0,  0} },
+		{0, []int{0, 0, 0}},
 
-		{ 1, []int{ 1,  0,  0} },
-		{ 1, []int{ 0,  1,  0} },
-		{ 1, []int{ 0,  0,  1} },
-		{ 1, []int{ 1,  1,  0} },
-		{ 1, []int{ 0,  1,  1} },
-		{ 1, []int{ 1,  0,  1} },
-		{ 1, []int{ 1,  1,  1} },
+		{1, []int{1, 0, 0}},
+		{1, []int{0, 1, 0}},
+		{1, []int{0, 0, 1}},
+		{1, []int{1, 1, 0}},
+		{1, []int{0, 1, 1}},
+		{1, []int{1, 0, 1}},
+		{1, []int{1, 1, 1}},
 
-		{-1, []int{-1,  0,  0} },
-		{-1, []int{ 0, -1,  0} },
-		{-1, []int{ 0,  0, -1} },
-		{-1, []int{-1, -1,  0} },
-		{-1, []int{ 0, -1, -1} },
-		{-1, []int{-1,  0, -1} },
-		{-1, []int{-1, -1, -1} },
+		{-1, []int{-1, 0, 0}},
+		{-1, []int{0, -1, 0}},
+		{-1, []int{0, 0, -1}},
+		{-1, []int{-1, -1, 0}},
+		{-1, []int{0, -1, -1}},
+		{-1, []int{-1, 0, -1}},
+		{-1, []int{-1, -1, -1}},
 
-		{ 1, []int{ 1,  1,  0} },
-		{ 1, []int{ 1, -1,  0} },
-		{-1, []int{-1,  1,  0} },
-		{-1, []int{-1, -1,  0} },
+		{1, []int{1, 1, 0}},
+		{1, []int{1, -1, 0}},
+		{-1, []int{-1, 1, 0}},
+		{-1, []int{-1, -1, 0}},
 
-		{ 1, []int{ 0,  1,  1} },
-		{ 1, []int{ 0,  1, -1} },
-		{-1, []int{ 0, -1,  1} },
-		{-1, []int{ 0, -1, -1} },
+		{1, []int{0, 1, 1}},
+		{1, []int{0, 1, -1}},
+		{-1, []int{0, -1, 1}},
+		{-1, []int{0, -1, -1}},
 
-		{ 1, []int{ 1,  0,  1} },
-		{ 1, []int{ 1,  0, -1} },
-		{-1, []int{-1,  0,  1} },
-		{-1, []int{-1,  0, -1} },
+		{1, []int{1, 0, 1}},
+		{1, []int{1, 0, -1}},
+		{-1, []int{-1, 0, 1}},
+		{-1, []int{-1, 0, -1}},
 	}
 	for _, c := range cases {
-		r := Concat(c.V...)
+		r := gort.Concat(c.V...)
 		assert.Equalf(t, c.E, r, "Concat(%v)", c.V)
 	}
 }
@@ -58,41 +60,41 @@ func TestConcatToLess(t *testing.T) {
 		E bool
 		V []int
 	}{
-		{ false, []int{ 0,  0,  0} },
+		{false, []int{0, 0, 0}},
 
-		{ false, []int{ 1,  0,  0} },
-		{ false, []int{ 0,  1,  0} },
-		{ false, []int{ 0,  0,  1} },
-		{ false, []int{ 1,  1,  0} },
-		{ false, []int{ 0,  1,  1} },
-		{ false, []int{ 1,  0,  1} },
-		{ false, []int{ 1,  1,  1} },
+		{false, []int{1, 0, 0}},
+		{false, []int{0, 1, 0}},
+		{false, []int{0, 0, 1}},
+		{false, []int{1, 1, 0}},
+		{false, []int{0, 1, 1}},
+		{false, []int{1, 0, 1}},
+		{false, []int{1, 1, 1}},
 
-		{ true,  []int{-1,  0,  0} },
-		{ true,  []int{ 0, -1,  0} },
-		{ true,  []int{ 0,  0, -1} },
-		{ true,  []int{-1, -1,  0} },
-		{ true,  []int{ 0, -1, -1} },
-		{ true,  []int{-1,  0, -1} },
-		{ true,  []int{-1, -1, -1} },
+		{true, []int{-1, 0, 0}},
+		{true, []int{0, -1, 0}},
+		{true, []int{0, 0, -1}},
+		{true, []int{-1, -1, 0}},
+		{true, []int{0, -1, -1}},
+		{true, []int{-1, 0, -1}},
+		{true, []int{-1, -1, -1}},
 
-		{ false, []int{ 1,  1,  0} },
-		{ false, []int{ 1, -1,  0} },
-		{ true,  []int{-1,  1,  0} },
-		{ true,  []int{-1, -1,  0} },
+		{false, []int{1, 1, 0}},
+		{false, []int{1, -1, 0}},
+		{true, []int{-1, 1, 0}},
+		{true, []int{-1, -1, 0}},
 
-		{ false, []int{ 0,  1,  1} },
-		{ false, []int{ 0,  1, -1} },
-		{ true,  []int{ 0, -1,  1} },
-		{ true,  []int{ 0, -1, -1} },
+		{false, []int{0, 1, 1}},
+		{false, []int{0, 1, -1}},
+		{true, []int{0, -1, 1}},
+		{true, []int{0, -1, -1}},
 
-		{ false, []int{ 1,  0,  1} },
-		{ false, []int{ 1,  0, -1} },
-		{ true,  []int{-1,  0,  1} },
-		{ true,  []int{-1,  0, -1} },
+		{false, []int{1, 0, 1}},
+		{false, []int{1, 0, -1}},
+		{true, []int{-1, 0, 1}},
+		{true, []int{-1, 0, -1}},
 	}
 	for _, c := range cases {
-		r := ConcatToLess(c.V...)
+		r := gort.ConcatToLess(c.V...)
 		assert.Equalf(t, c.E, r, "ConcatToLess(%v)", c.V)
 	}
 
@@ -103,38 +105,38 @@ func TestConcatLazy(t *testing.T) {
 		E int
 		V []int
 	}{
-		{ 0, []int{ 0,  0,  0} },
+		{0, []int{0, 0, 0}},
 
-		{ 1, []int{ 1,  0,  0} },
-		{ 1, []int{ 0,  1,  0} },
-		{ 1, []int{ 0,  0,  1} },
-		{ 1, []int{ 1,  1,  0} },
-		{ 1, []int{ 0,  1,  1} },
-		{ 1, []int{ 1,  0,  1} },
-		{ 1, []int{ 1,  1,  1} },
+		{1, []int{1, 0, 0}},
+		{1, []int{0, 1, 0}},
+		{1, []int{0, 0, 1}},
+		{1, []int{1, 1, 0}},
+		{1, []int{0, 1, 1}},
+		{1, []int{1, 0, 1}},
+		{1, []int{1, 1, 1}},
 
-		{-1, []int{-1,  0,  0} },
-		{-1, []int{ 0, -1,  0} },
-		{-1, []int{ 0,  0, -1} },
-		{-1, []int{-1, -1,  0} },
-		{-1, []int{ 0, -1, -1} },
-		{-1, []int{-1,  0, -1} },
-		{-1, []int{-1, -1, -1} },
+		{-1, []int{-1, 0, 0}},
+		{-1, []int{0, -1, 0}},
+		{-1, []int{0, 0, -1}},
+		{-1, []int{-1, -1, 0}},
+		{-1, []int{0, -1, -1}},
+		{-1, []int{-1, 0, -1}},
+		{-1, []int{-1, -1, -1}},
 
-		{ 1, []int{ 1,  1,  0} },
-		{ 1, []int{ 1, -1,  0} },
-		{-1, []int{-1,  1,  0} },
-		{-1, []int{-1, -1,  0} },
+		{1, []int{1, 1, 0}},
+		{1, []int{1, -1, 0}},
+		{-1, []int{-1, 1, 0}},
+		{-1, []int{-1, -1, 0}},
 
-		{ 1, []int{ 0,  1,  1} },
-		{ 1, []int{ 0,  1, -1} },
-		{-1, []int{ 0, -1,  1} },
-		{-1, []int{ 0, -1, -1} },
+		{1, []int{0, 1, 1}},
+		{1, []int{0, 1, -1}},
+		{-1, []int{0, -1, 1}},
+		{-1, []int{0, -1, -1}},
 
-		{ 1, []int{ 1,  0,  1} },
-		{ 1, []int{ 1,  0, -1} },
-		{-1, []int{-1,  0,  1} },
-		{-1, []int{-1,  0, -1} },
+		{1, []int{1, 0, 1}},
+		{1, []int{1, 0, -1}},
+		{-1, []int{-1, 0, 1}},
+		{-1, []int{-1, 0, -1}},
 	}
 	for _, c := range cases {
 		var expressions []func() int
@@ -145,7 +147,7 @@ func TestConcatLazy(t *testing.T) {
 				})
 			}(v)
 		}
-		r := ConcatLazy(expressions...)
+		r := gort.ConcatLazy(expressions...)
 		assert.Equalf(t, c.E, r, "ConcatLazy(%v)", c.V)
 	}
 }
@@ -155,38 +157,38 @@ func TestConcatToLessLazy(t *testing.T) {
 		E bool
 		V []int
 	}{
-		{ false, []int{ 0,  0,  0} },
+		{false, []int{0, 0, 0}},
 
-		{ false, []int{ 1,  0,  0} },
-		{ false, []int{ 0,  1,  0} },
-		{ false, []int{ 0,  0,  1} },
-		{ false, []int{ 1,  1,  0} },
-		{ false, []int{ 0,  1,  1} },
-		{ false, []int{ 1,  0,  1} },
-		{ false, []int{ 1,  1,  1} },
+		{false, []int{1, 0, 0}},
+		{false, []int{0, 1, 0}},
+		{false, []int{0, 0, 1}},
+		{false, []int{1, 1, 0}},
+		{false, []int{0, 1, 1}},
+		{false, []int{1, 0, 1}},
+		{false, []int{1, 1, 1}},
 
-		{ true,  []int{-1,  0,  0} },
-		{ true,  []int{ 0, -1,  0} },
-		{ true,  []int{ 0,  0, -1} },
-		{ true,  []int{-1, -1,  0} },
-		{ true,  []int{ 0, -1, -1} },
-		{ true,  []int{-1,  0, -1} },
-		{ true,  []int{-1, -1, -1} },
+		{true, []int{-1, 0, 0}},
+		{true, []int{0, -1, 0}},
+		{true, []int{0, 0, -1}},
+		{true, []int{-1, -1, 0}},
+		{true, []int{0, -1, -1}},
+		{true, []int{-1, 0, -1}},
+		{true, []int{-1, -1, -1}},
 
-		{ false, []int{ 1,  1,  0} },
-		{ false, []int{ 1, -1,  0} },
-		{ true,  []int{-1,  1,  0} },
-		{ true,  []int{-1, -1,  0} },
+		{false, []int{1, 1, 0}},
+		{false, []int{1, -1, 0}},
+		{true, []int{-1, 1, 0}},
+		{true, []int{-1, -1, 0}},
 
-		{ false, []int{ 0,  1,  1} },
-		{ false, []int{ 0,  1, -1} },
-		{ true,  []int{ 0, -1,  1} },
-		{ true,  []int{ 0, -1, -1} },
+		{false, []int{0, 1, 1}},
+		{false, []int{0, 1, -1}},
+		{true, []int{0, -1, 1}},
+		{true, []int{0, -1, -1}},
 
-		{ false, []int{ 1,  0,  1} },
-		{ false, []int{ 1,  0, -1} },
-		{ true,  []int{-1,  0,  1} },
-		{ true,  []int{-1,  0, -1} },
+		{false, []int{1, 0, 1}},
+		{false, []int{1, 0, -1}},
+		{true, []int{-1, 0, 1}},
+		{true, []int{-1, 0, -1}},
 	}
 	for _, c := range cases {
 		var expressions []func() int
@@ -197,7 +199,7 @@ func TestConcatToLessLazy(t *testing.T) {
 				})
 			}(v)
 		}
-		r := ConcatToLessLazy(expressions...)
+		r := gort.ConcatToLessLazy(expressions...)
 		assert.Equalf(t, c.E, r, "ConcatLazy(%v)", c.V)
 	}
 }
@@ -208,20 +210,20 @@ type Iface struct {
 	Ifindex int
 }
 
-func ExampleIface() {
+func ExampleConcatToLess() {
 	lessIfaceAsc := func(ifaces []Iface) func(int, int) bool {
 		return func(i, j int) bool {
 			a := ifaces[i]
 			b := ifaces[j]
-			return ConcatToLess(
-				compare.String(a.Address, b.Address),
-				compare.String(a.Ifname, b.Ifname),
-				compare.Int(a.Ifindex, b.Ifindex),
+			return gort.ConcatToLess(
+				compareString(a.Address, b.Address),
+				compareString(a.Ifname, b.Ifname),
+				compareInt(a.Ifindex, b.Ifindex),
 			)
 		}
 	}
 
-	ifaces := []Iface {
+	ifaces := []Iface{
 		{
 			"192.168.1.1",
 			"eth1",
@@ -266,4 +268,19 @@ func ExampleIface() {
 	// {192.168.1.1 eth0 1}
 	// {192.168.1.1 eth1 1}
 	// {192.168.1.1 eth1 2}
+}
+
+func compareString(a, b string) int {
+	return strings.Compare(a, b)
+}
+
+func compareInt(a, b int) int {
+	switch {
+	case a < b:
+		return -1
+	case a > b:
+		return 1
+	default:
+		return 0
+	}
 }
