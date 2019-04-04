@@ -1,4 +1,5 @@
 # 🐐 gort
+[![Build Status](https://travis-ci.com/lambdalisue/gort.svg?branch=master)](https://travis-ci.com/lambdalisue/gort)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lambdalisue/gort)](https://goreportcard.com/report/github.com/lambdalisue/gort) 
 [![GoDoc](https://godoc.org/github.com/lambdalisue/gort?status.svg)](https://godoc.org/github.com/lambdalisue/gort)
 [![license](https://img.shields.io/badge/license-MIT-4183c4.svg)](https://github.com/lambdalisue/gort/blob/master/LICENSE)
