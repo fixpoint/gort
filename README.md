@@ -106,5 +106,5 @@ func main() {
 
 ## Authors
 
-- lambdalisue
-- c000
+- [lambdalisue](https://github.com/lambdalisue)
+- [c000](https://github.com/c000)
