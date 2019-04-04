@@ -1,4 +1,4 @@
-package gort
+package gort_test
 
 import (
 	"fmt"
@@ -7,6 +7,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+
+	"github.com/lambdalisue/gort"
 )
 
 func TestConcat(t *testing.T) {
@@ -48,7 +50,7 @@ func TestConcat(t *testing.T) {
 		{-1, []int{-1, 0, -1}},
 	}
 	for _, c := range cases {
-		r := Concat(c.V...)
+		r := gort.Concat(c.V...)
 		assert.Equalf(t, c.E, r, "Concat(%v)", c.V)
 	}
 }
@@ -92,7 +94,7 @@ func TestConcatToLess(t *testing.T) {
 		{true, []int{-1, 0, -1}},
 	}
 	for _, c := range cases {
-		r := ConcatToLess(c.V...)
+		r := gort.ConcatToLess(c.V...)
 		assert.Equalf(t, c.E, r, "ConcatToLess(%v)", c.V)
 	}
 
@@ -145,7 +147,7 @@ func TestConcatLazy(t *testing.T) {
 				})
 			}(v)
 		}
-		r := ConcatLazy(expressions...)
+		r := gort.ConcatLazy(expressions...)
 		assert.Equalf(t, c.E, r, "ConcatLazy(%v)", c.V)
 	}
 }
@@ -197,7 +199,7 @@ func TestConcatToLessLazy(t *testing.T) {
 				})
 			}(v)
 		}
-		r := ConcatToLessLazy(expressions...)
+		r := gort.ConcatToLessLazy(expressions...)
 		assert.Equalf(t, c.E, r, "ConcatLazy(%v)", c.V)
 	}
 }
@@ -208,12 +210,12 @@ type Iface struct {
 	Ifindex int
 }
 
-func ExampleIface() {
+func ExampleConcatToLess() {
 	lessIfaceAsc := func(ifaces []Iface) func(int, int) bool {
 		return func(i, j int) bool {
 			a := ifaces[i]
 			b := ifaces[j]
-			return ConcatToLess(
+			return gort.ConcatToLess(
 				compareString(a.Address, b.Address),
 				compareString(a.Ifname, b.Ifname),
 				compareInt(a.Ifindex, b.Ifindex),
