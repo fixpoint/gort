@@ -66,7 +66,7 @@ func compareInt(a, b int) int {
 }
 ```
 
-Or with [https://godoc.org/github.com/kamichidu/go-msort/compare](kamichidu/go-msort/comapre):
+Or with [kamichidu/go-msort/comapre](https://godoc.org/github.com/kamichidu/go-msort/compare):
 
 ```
 package main
