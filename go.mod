@@ -1,4 +1,4 @@
-module github.com/lambdalisue/gort
+module github.com/fixpoint/gort
 
 go 1.12
 
