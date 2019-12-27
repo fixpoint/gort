@@ -1,15 +1,15 @@
 # 🐐 gort
-[![Build Status](https://travis-ci.com/lambdalisue/gort.svg?branch=master)](https://travis-ci.com/lambdalisue/gort)
-[![Go Report Card](https://goreportcard.com/badge/github.com/lambdalisue/gort)](https://goreportcard.com/report/github.com/lambdalisue/gort) 
-[![GoDoc](https://godoc.org/github.com/lambdalisue/gort?status.svg)](https://godoc.org/github.com/lambdalisue/gort)
-[![license](https://img.shields.io/badge/license-MIT-4183c4.svg)](https://github.com/lambdalisue/gort/blob/master/LICENSE)
+[![Build Status](https://travis-ci.com/fixpoint/gort.svg?branch=master)](https://travis-ci.com/fixpoint/gort)
+[![Go Report Card](https://goreportcard.com/badge/github.com/fixpoint/gort)](https://goreportcard.com/report/github.com/fixpoint/gort) 
+[![GoDoc](https://godoc.org/github.com/fixpoint/gort?status.svg)](https://godoc.org/github.com/fixpoint/gort)
+[![license](https://img.shields.io/badge/license-MIT-4183c4.svg)](https://github.com/fixpoint/gort/blob/master/LICENSE)
 
 **gort** is a collection of utility functions to help writing slice sort.
 
 ## Installation
 
 ```
-$ go get github.com/lambdalisue/gort
+$ go get github.com/fixpoint/gort
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/lambdalisue/gort"
+	"github.com/fixpoint/gort"
 )
 
 func main() {
@@ -76,7 +76,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/lambdalisue/gort"
+	"github.com/fixpoint/gort"
 	"github.com/kamichidu/go-msort/compare"
 )
 
