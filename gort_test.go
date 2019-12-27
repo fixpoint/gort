@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/lambdalisue/gort"
+	"github.com/fixpoint/gort"
 )
 
 func TestConcat(t *testing.T) {
